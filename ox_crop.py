@@ -1,4 +1,5 @@
 from PIL import Image
+import os
 
 # inputimg_dir = "/home/min/pytorch-ox/test_image/20240413_023659.jpg"
 
@@ -23,17 +24,25 @@ def imgcut(input_dir):
     img8 = imgresized.crop((left[7],top[2]-5,left[7]+42,top[2]+35)) #image8
     img9 = imgresized.crop((left[8],top[2]-5,left[8]+42,top[2]+35)) #image9
 
-    # img9.show()
     # 이미지 저장하기(jpeg)
-    img1.save('/home/min/pytorch-ox/infer_dataset/82.jpg')
-    img2.save('/home/min/pytorch-ox/infer_dataset/83.jpg')
-    img3.save('/home/min/pytorch-ox/infer_dataset/84.jpg')
-    img4.save('/home/min/pytorch-ox/infer_dataset/85.jpg')
-    img5.save('/home/min/pytorch-ox/infer_dataset/86.jpg')
-    img6.save('/home/min/pytorch-ox/infer_dataset/87.jpg')
-    img7.save('/home/min/pytorch-ox/infer_dataset/88.jpg')
-    img8.save('/home/min/pytorch-ox/infer_dataset/89.jpg')
-    img9.save('/home/min/pytorch-ox/infer_dataset/90.jpg')
+    img1.save('/home/min/pytorch-ox/inferance/1.jpg')
+    img2.save('/home/min/pytorch-ox/inferance/2.jpg')
+    img3.save('/home/min/pytorch-ox/inferance/3.jpg')
+    img4.save('/home/min/pytorch-ox/inferance/4.jpg')
+    img5.save('/home/min/pytorch-ox/inferance/5.jpg')
+    img6.save('/home/min/pytorch-ox/inferance/6.jpg')
+    img7.save('/home/min/pytorch-ox/inferance/7.jpg')
+    img8.save('/home/min/pytorch-ox/inferance/8.jpg')
+    img9.save('/home/min/pytorch-ox/inferance/9.jpg')
+
+def get_image_files(folder_path):
+    image_files = []
+    for root, dirs, files in os.walk(folder_path):
+        for file in files:
+            if file.endswith(('.jpg', '.jpeg', '.png', '.bmp', '.gif')):
+                image_files.append(os.path.join(root, file))
+    return image_files
+
 
 # if __name__ == '__main__':
 #     main(inputimg_dir)
