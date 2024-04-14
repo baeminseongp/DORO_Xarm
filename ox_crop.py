@@ -1,8 +1,6 @@
 from PIL import Image
 import os
 
-# inputimg_dir = "/home/min/pytorch-ox/test_image/20240413_023659.jpg"
-
 def imgcut(input_dir):
 # 이미지 불러오기
     img = Image.open(input_dir)
@@ -35,14 +33,6 @@ def imgcut(input_dir):
     img8.save('/home/min/pytorch-ox/inferance/8.jpg')
     img9.save('/home/min/pytorch-ox/inferance/9.jpg')
 
-def get_image_files(folder_path):
-    image_files = []
-    for root, dirs, files in os.walk(folder_path):
-        for file in files:
-            if file.endswith(('.jpg', '.jpeg', '.png', '.bmp', '.gif')):
-                image_files.append(os.path.join(root, file))
+def get_image_files(root_dir):
+    image_files = [os.path.join(root_dir, f) for f in os.listdir(root_dir) if f.endswith(('.jpg', '.png', '.jpeg'))]
     return image_files
-
-
-# if __name__ == '__main__':
-#     main(inputimg_dir)
