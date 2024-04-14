@@ -10,7 +10,7 @@ import torch.nn as nn
 
 DEVICE = torch.device('cpu')  # 기기 설정: CPU 사용
 BATCH_SIZE = 10  # 배치 크기 설정
-EPOCHS = 30  # 에포크 설정
+EPOCHS = 10  # 에포크 설정
 
 def prepare_data(root_train, root_test, batch_size, device):
     # 데이터 변환 정의
