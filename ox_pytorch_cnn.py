@@ -8,7 +8,7 @@ import numpy as np
 import torchvision
 from torchvision import transforms
 import torch.nn as nn
-# from ox_crop import imgcut
+from ox_crop import imgcut,get_image_files
 
 
 if torch.cuda.is_available():
@@ -19,49 +19,7 @@ print('Using PyTorch version:', torch.__version__, ' Device:', DEVICE)
 
 imgdir = "/home/min/pytorch-ox/test-image.jpg"
 inferdir = "/home/min/pytorch-ox/inferance"
-
-def get_image_files(folder_path):
-    image_files = []
-    for root, dirs, files in os.walk(folder_path):
-        for file in files:
-            if file.endswith(('.jpg', '.jpeg', '.png', '.bmp', '.gif')):
-                image_files.append(os.path.join(root, file))
-    return image_files
-
-def imgcut(input_dir):
-# 이미지 불러오기
-    img = Image.open(input_dir)
-    # 이미지 회전하기
-    img = img.rotate(270)
-
-    imgresized = img.resize((400,400))
-
-    # (left, top, right, bottom) 영역을 지정하여 자르기
-    left =[111,180,250,110,176,250,102,176,253]
-    top = [112,180,250]
-    img1 = imgresized.crop((left[0],top[0],left[0]+35,top[0]+35)) #image1
-    img2 = imgresized.crop((left[1],top[0],left[1]+35,top[0]+35)) #image2
-    img3 = imgresized.crop((left[2],top[0],left[2]+35,top[0]+35)) #image3
-    img4 = imgresized.crop((left[3],top[1],left[3]+30,top[1]+30)) #image4
-    img5 = imgresized.crop((left[4],top[1]-4,left[4]+40,top[1]+36)) #image5
-    img6 = imgresized.crop((left[5],top[1]-4,left[5]+40,top[1]+36)) #image6
-    img7 = imgresized.crop((left[6],top[2]-5,left[6]+40,top[2]+35)) #image7
-    img8 = imgresized.crop((left[7],top[2]-5,left[7]+42,top[2]+35)) #image8
-    img9 = imgresized.crop((left[8],top[2]-5,left[8]+42,top[2]+35)) #image9
-
-    # img9.show()
-    # 이미지 저장하기(jpeg)
-    img1.save('/home/min/pytorch-ox/inferance/1.jpg')
-    img2.save('/home/min/pytorch-ox/inferance/2.jpg')
-    img3.save('/home/min/pytorch-ox/inferance/3.jpg')
-    img4.save('/home/min/pytorch-ox/inferance/4.jpg')
-    img5.save('/home/min/pytorch-ox/inferance/5.jpg')
-    img6.save('/home/min/pytorch-ox/inferance/6.jpg')
-    img7.save('/home/min/pytorch-ox/inferance/7.jpg')
-    img8.save('/home/min/pytorch-ox/inferance/8.jpg')
-    img9.save('/home/min/pytorch-ox/inferance/9.jpg')
     
-
 BATCH_SIZE = 10
 EPOCHS = 30
 
@@ -94,13 +52,6 @@ image_files = get_image_files(inferdir)
 
 # 사용자 정의 데이터셋 객체를 생성합니다.
 infer_dataset = CustomDataset(image_files, transform=trans)
-
-# DataLoader를 이용하여 데이터를 불러옵니다.
-# infer_loader = DataLoader(infer_dataset, batch_size=BATCH_SIZE, shuffle=False)
-
-# 추론 코드 이후 부분은 그대로 유지됩니다.
-
-# testset = torchvision.datasets.ImageFolder(root = "/home/min/pytorch-ox/inferance", transform = trans)
     
 class CNN(nn.Module):
     def __init__(self):
