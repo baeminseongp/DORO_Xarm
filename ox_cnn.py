@@ -12,6 +12,25 @@ DEVICE = torch.device('cpu')  # 기기 설정: CPU 사용
 BATCH_SIZE = 10  # 배치 크기 설정
 EPOCHS = 30  # 에포크 설정
 
+def prepare_data(root_train, root_test, batch_size, device):
+    # 데이터 변환 정의
+    trans = transforms.Compose([
+        transforms.Resize((100, 100)),  # 이미지 크기 조정
+        transforms.RandomHorizontalFlip(),  # 랜덤하게 이미지 좌우 반전
+        transforms.RandomRotation(15),  # 랜덤하게 이미지 회전
+        transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.2),  # 색상 조정
+        transforms.ToTensor(),  # 이미지를 텐서로 변환
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))  # 이미지를 정규화
+    ])
+
+    # 학습 및 테스트 데이터셋 불러오기
+    trainset = torchvision.datasets.ImageFolder(root=root_train, transform=trans)
+    testset = torchvision.datasets.ImageFolder(root=root_test, transform=trans)
+    trainloader = DataLoader(trainset, batch_size=batch_size, shuffle=True)
+    testloader = DataLoader(testset, batch_size=batch_size, shuffle=False)
+
+    return trainloader, testloader
+
 # CNN 모델 정의
 class CNN(nn.Module):
     def __init__(self):
@@ -83,22 +102,14 @@ def evaluate(model, testloader, criterion):
 
 # 메인 함수
 def main():
-    # 데이터 변환 정의
-    trans = transforms.Compose([
-        transforms.Resize((100, 100)),  # 이미지 크기 조정
-        transforms.RandomHorizontalFlip(),  # 랜덤하게 이미지 좌우 반전
-        transforms.RandomRotation(15),  # 랜덤하게 이미지 회전
-        transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.2),  # 색상 조정
-        transforms.ToTensor(),  # 이미지를 텐서로 변환
-        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))  # 이미지를 정규화
-    ])
-
     # 학습 및 테스트 데이터셋 불러오기
     # trainset, testset의 root를 자신의 폴더에 맞게 변경해주세요.
-    trainset = torchvision.datasets.ImageFolder(root = "/home/zxro/DeepLearning/dataset",transform = trans)
-    testset = torchvision.datasets.ImageFolder(root = "/home/zxro/DeepLearning/testset", transform = trans)
-    trainloader = DataLoader(trainset, batch_size = BATCH_SIZE, shuffle = True)
-    testloader = DataLoader(testset, batch_size = BATCH_SIZE, shuffle = False)
+    trainloader, testloader = prepare_data(
+        root_train="/home/zxro/DeepLearning/dataset",
+        root_test="/home/zxro/DeepLearning/testset",
+        batch_size=BATCH_SIZE,
+        device=DEVICE
+    )
 
     model = CNN().to(DEVICE)  # 모델 초기화 및 기기 설정
     optimizer = torch.optim.Adam(model.parameters(), lr = 0.00001)  # 옵티마이저 정의
