@@ -18,9 +18,9 @@ def prepare_data(root_train, root_test, batch_size, device):
         transforms.Resize((100, 100)),  # 이미지 크기 조정
         transforms.RandomHorizontalFlip(),  # 랜덤하게 이미지 좌우 반전
         transforms.RandomRotation(15),  # 랜덤하게 이미지 회전
-        transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.2),  # 색상 조정
         transforms.ToTensor(),  # 이미지를 텐서로 변환
-        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))  # 이미지를 정규화
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),  # 이미지를 정규화
+        transforms.Grayscale(num_output_channels=1)   # grayscale로 변환한다.
     ])
 
     # 학습 및 테스트 데이터셋 불러오기
@@ -36,7 +36,7 @@ class CNN(nn.Module):
     def __init__(self):
         super(CNN, self).__init__()
         # Convolutional layers
-        self.conv1 = nn.Conv2d(in_channels=3, out_channels=10, kernel_size=5, stride=1, padding=0, bias=True)
+        self.conv1 = nn.Conv2d(in_channels=1, out_channels=10, kernel_size=5, stride=1, padding=0, bias=True)
         self.pool1 = nn.MaxPool2d(kernel_size=2)
         self.relu1 = nn.ReLU()
         self.conv2 = nn.Conv2d(in_channels=10, out_channels=20, kernel_size=5, stride=1, padding=0, bias=True)
@@ -105,8 +105,8 @@ def main():
     # 학습 및 테스트 데이터셋 불러오기
     # trainset, testset의 root를 자신의 폴더에 맞게 변경해주세요.
     trainloader, testloader = prepare_data(
-        root_train="/home/zxro/DeepLearning/dataset",
-        root_test="/home/zxro/DeepLearning/testset",
+        root_train="/home/min/pytorch-ox/dataset",
+        root_test="/home/min/pytorch-ox/testset",
         batch_size=BATCH_SIZE,
         device=DEVICE
     )
