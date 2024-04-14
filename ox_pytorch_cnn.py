@@ -10,15 +10,6 @@ from torchvision import transforms
 import torch.nn as nn
 from ox_crop import imgcut,get_image_files
 
-# 이미지 증강
-trans = transforms.Compose([
-    transforms.Resize((100, 100)),
-    # transforms.RandomHorizontalFlip(),  # 랜덤하게 이미지를 좌우 반전합니다.
-    # transforms.RandomRotation(15),  # 이미지를 최대 15도까지 랜덤하게 회전시킵니다.
-    # transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.2),  # 색상을 랜덤하게 변경합니다.
-    transforms.ToTensor(), # 배열 -> Tensor로 변환합니다.
-    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)) # 픽셀 값의 범위를 0~1로 조절합니다.
-    ])
 
 class CustomDataset(Dataset):
 
@@ -81,6 +72,16 @@ class CNN(nn.Module):
 
 
 def main():
+    # 이미지 증강
+    trans = transforms.Compose([
+    transforms.Resize((100, 100)),
+    # transforms.RandomHorizontalFlip(),  # 랜덤하게 이미지를 좌우 반전합니다.
+    # transforms.RandomRotation(15),  # 이미지를 최대 15도까지 랜덤하게 회전시킵니다.
+    # transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.2),  # 색상을 랜덤하게 변경합니다.
+    transforms.ToTensor(), # 배열 -> Tensor로 변환합니다.
+    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)) # 픽셀 값의 범위를 0~1로 조절합니다.
+    ])
+
     # 모델과 이미지 파일 경로를 초기화합니다.
     DEVICE = torch.device('cpu')
     model = CNN().to(DEVICE)
