@@ -7,6 +7,7 @@
 -> inferance파일에서 받아와 customDataset 제작
 -> 이후 추론 진행
 3) 학습 신경망(CNN)
+    
         self.conv1 = nn.Conv2d(in_channels=3, out_channels=10, kernel_size=5, stride=1, padding=0, bias=True)
         self.pool1 = nn.MaxPool2d(kernel_size=2)
         self.relu1 = nn.ReLU()
