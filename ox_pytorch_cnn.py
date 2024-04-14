@@ -26,7 +26,7 @@ class CustomDataset(Dataset):
         # 주어진 인덱스에 해당하는 샘플을 반환합니다.
         img_path = self.image_files[idx]
         # 이미지를 RGB 형식으로 열어서 반환합니다.
-        image = Image.open(img_path).convert('RGB')
+        image = Image.open(img_path)
         if self.transform:
             # 이미지에 전처리(transform)를 적용합니다.
             image = self.transform(image)
