@@ -105,8 +105,8 @@ def main():
     # 학습 및 테스트 데이터셋 불러오기
     # trainset, testset의 root를 자신의 폴더에 맞게 변경해주세요.
     trainloader, testloader = prepare_data(
-        root_train="/home/min/pytorch-ox/dataset",
-        root_test="/home/min/pytorch-ox/testset",
+        root_train="/home/min/pytorch-ox/dataset",#trainset의 root를 자신의 환경에 맞게 변경해주세요
+        root_test="/home/min/pytorch-ox/testset", #testset의 root를 자신의 환경에 맞게 변경해주세요
         batch_size=BATCH_SIZE,
         device=DEVICE
     )
