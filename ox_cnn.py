@@ -10,7 +10,7 @@ import torch.nn as nn
 
 DEVICE = torch.device('cpu')  # 기기 설정: CPU 사용
 BATCH_SIZE = 10  # 배치 크기 설정
-EPOCHS = 10  # 에포크 설정
+EPOCHS = 30  # 에포크 설정
 
 def prepare_data(root_train, root_test, batch_size, device):
     # 데이터 변환 정의
@@ -46,7 +46,7 @@ class CNN(nn.Module):
         # Fully connected layers
         self.fc1 = nn.Linear(in_features=9680, out_features=50, bias=True)
         self.relu1_fc1 = nn.ReLU()
-        self.fc2 = nn.Linear(in_features=50, out_features=2, bias=True)
+        self.fc2 = nn.Linear(in_features=50, out_features=3, bias=True)
         
     def forward(self, x):
         x = self.conv1(x)
@@ -105,14 +105,14 @@ def main():
     # 학습 및 테스트 데이터셋 불러오기
     # trainset, testset의 root를 자신의 폴더에 맞게 변경해주세요.
     trainloader, testloader = prepare_data(
-        root_train="/home/zxro/DeepLearning/dataset",#trainset의 root를 자신의 환경에 맞게 변경해주세요
-        root_test="/home/zxro/DeepLearning/testset", #testset의 root를 자신의 환경에 맞게 변경해주세요
+        root_train="/home/min/pytorch-ox/dataset",
+        root_test="/home/min/pytorch-ox/testset",
         batch_size=BATCH_SIZE,
         device=DEVICE
     )
 
     model = CNN().to(DEVICE)  # 모델 초기화 및 기기 설정
-    optimizer = torch.optim.Adam(model.parameters(), lr = 0.00001)  # 옵티마이저 정의
+    optimizer = torch.optim.Adam(model.parameters(), lr = 0.001)  # 옵티마이저 정의
     criterion = nn.CrossEntropyLoss()  # 손실 함수 정의
     print(model)
 
