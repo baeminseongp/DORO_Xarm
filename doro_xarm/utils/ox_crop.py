@@ -1,9 +1,9 @@
 from PIL import Image
 import os
 
-def imgcut(input_dir):
+def imgcut(origin_image, save_path):
 # 이미지 불러오기
-    img = Image.open(input_dir)
+    img = Image.open(origin_image)
     # 이미지 회전하기
     img = img.rotate(270)
 
@@ -23,15 +23,15 @@ def imgcut(input_dir):
     img9 = imgresized.crop((left[8],top[2]-5,left[8]+42,top[2]+35)) #image9
 
     # 이미지 저장하기(jpeg)
-    img1.save('/home/min/pytorch-ox/inferance/1.jpg')
-    img2.save('/home/min/pytorch-ox/inferance/2.jpg')
-    img3.save('/home/min/pytorch-ox/inferance/3.jpg')
-    img4.save('/home/min/pytorch-ox/inferance/4.jpg')
-    img5.save('/home/min/pytorch-ox/inferance/5.jpg')
-    img6.save('/home/min/pytorch-ox/inferance/6.jpg')
-    img7.save('/home/min/pytorch-ox/inferance/7.jpg')
-    img8.save('/home/min/pytorch-ox/inferance/8.jpg')
-    img9.save('/home/min/pytorch-ox/inferance/9.jpg')
+    img1.save(save_path + '/1.jpg')
+    img2.save(save_path + '/2.jpg')
+    img3.save(save_path + '/3.jpg')
+    img4.save(save_path + '/4.jpg')
+    img5.save(save_path + '/5.jpg')
+    img6.save(save_path + '/6.jpg')
+    img7.save(save_path + '/7.jpg')
+    img8.save(save_path + '/8.jpg')
+    img9.save(save_path + '/9.jpg')
 
 def get_image_files(root_dir):
     image_files = [os.path.join(root_dir, f) for f in os.listdir(root_dir) if f.endswith(('.jpg', '.png', '.jpeg'))]
