@@ -51,8 +51,9 @@ class CNN(nn.Module):
     def set_loss(self, loss):
         self.loss = loss
     
-    def train(self, train_loader, log_interval, epoch): 
-        self.train()                                                                     # 모델을 학습 모드로 설정
+    def train_dataset(self, train_loader, log_interval, epoch): 
+                                                                        # 모델을 학습 모드로 설정
+        self.train()
         for batch_idx, (image, label) in enumerate(train_loader):                         # 미니 배치 단위로 학습
             image = image.to(self.device)                                                # 이미지를 기기로 이동
             label = label.to(self.device)                                                # 레이블을 기기로 이동
@@ -62,10 +63,10 @@ class CNN(nn.Module):
             loss.backward()                                                              # 역전파
             self.optimizer.step()                                                        # 가중치 업데이트
 
-            if batch_idx % log_interval == 0:                                            # 현재 진행 중인 학습 상황 출력   
-                print("Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}".format(
-                    epoch, batch_idx * len(image), len(train_loader.dataset),
-                    100. * batch_idx / len(train_loader), loss.item()))
+            # if batch_idx % log_interval == 0:                                            # 현재 진행 중인 학습 상황 출력   
+            #     print("Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}".format(
+            #         epoch, batch_idx * len(image), len(train_loader.dataset),
+            #         100. * batch_idx / len(train_loader), loss.item()))
     
     def evaluate(self, testloader):
         self.eval()                                                                      # 모델을 평가 모드로 설정
@@ -76,6 +77,7 @@ class CNN(nn.Module):
                 image = image.to(self.device)                                            # 이미지를 기기로 이동
                 label = label.to(self.device)                                            # 레이블을 기기로 이동
                 output = self(image)                                                     # 모델에 이미지 전달하여 예측
+                print('label: ', label, 'predict', torch.argmax(output, dim=-1))
                 test_loss += self.loss(output, label).item()                              # 손실 누적
                 prediction = output.max(1, keepdim = True)[1]                            # 가장 높은 확률을 가진 클래스 선택
                 correct += prediction.eq(label.view_as(prediction)).sum().item()         # 정확한 예측 수 누적

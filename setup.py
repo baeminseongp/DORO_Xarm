@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from setuptools import find_packages, setup
-
+from glob import glob
 package_name = "doro_xarm"
 
 setup(
@@ -10,6 +10,10 @@ setup(
     data_files=[
         ("share/ament_index/resource_index/packages", ["resource/" + package_name]),
         ("share/" + package_name, ["package.xml"]),
+        ("share/" + package_name + "/launch", glob("launch/*.launch.py")),
+        ("share/" + package_name + "/configs", glob("configs/*.*")),
+        ("share/" + package_name + "/model", glob("model/*.pt")),
+        ("share/" + package_name + "/data", glob("data/*.*")),
     ],
     install_requires=["setuptools"],
     zip_safe=True,
@@ -20,12 +24,8 @@ setup(
     tests_require=["pytest"],
     entry_points={
         "console_scripts": [
-            "dummy_py_node = py_pkg_template.py_node_template:main",
-            "dummy_publisher_py_node = py_pkg_template.py_publisher_template:main",
-            "dummy_subscriber_py_node = py_pkg_template.py_subscriber_template:main",
-            "dummy_parametrized_py_node = py_pkg_template.py_parametrized_template:main",
-            "dummy_server_py_node = py_pkg_template.py_service_server_template:main",
-            "dummy_client_py_node = py_pkg_template.py_service_client_template:main",
+            "inference_node = doro_xarm.inference:main",
+            "training_node = doro_xarm.training:main",
         ],
     },
 )

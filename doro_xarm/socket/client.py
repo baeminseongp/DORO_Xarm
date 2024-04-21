@@ -10,9 +10,9 @@ class ImageClient:
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client_socket.connect((self.host, self.port))
 
-    def request_image(self, image_filename):
+    def request_image(self, image_filename, save_path):
         self.client_socket.sendall(image_filename.encode('utf-8'))
-        self.receive_image(image_filename)
+        self.receive_image(save_path)
 
     def receive_image(self, image_filename):
         try:
