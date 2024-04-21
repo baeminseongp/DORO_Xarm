@@ -32,7 +32,6 @@ def ai_turn():
         move = minimax(board, depth, COMP)
         x, y = move[0], move[1]
     set_move(x, y, COMP)
-    print(3*x+y+1)
     return 3*x+y+1
 def minimax(state, depth, player):
     if player == COMP:
@@ -108,25 +107,26 @@ def set_move(x, y, player):
 
 class TikTakToe(Node):
     def __init__(self):
-        super().__init__("dummy_server_py")
+        super().__init__("tik_tak_toe")
 
         self.server_ = self.create_service(
-            Index, "dummy_service", self.callback_service_call
+            Index, "index", self.callback_service_call
         )
-        self.get_logger().info("Dummy service server node started.")
 
     def callback_service_call(self, request, response):
-        result = self.algorithm(request.index)
-        print(result)
+        print(request.index)
+        a = request.index
+        result = self.algorithm(a)
+        self.get_logger().info(f"move is: {result}")
         if len(empty_cells(board)) == 0 or game_over(board):
             if wins(board, HUMAN):
-                print('YOU WIN!')
+                self.get_logger().info('YOU WIN!')
             elif wins(board, COMP):
-                print('YOU LOSE!')
+                self.get_logger().info('YOU LOSE!')
             else:
-                print('DRAW!')
-            exit()
-        response = True
+                self.get_logger().info('DRAW!')
+            
+        response.result = result
         return response
     
     def algorithm(self, index):

@@ -1,6 +1,6 @@
 inference_node:
   ros__parameters:
     device: "cpu"
-    ip: "192.168.114.21"
+    ip: "localhost"
     port: 12345
     

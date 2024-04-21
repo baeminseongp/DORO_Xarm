@@ -21,6 +21,7 @@ setup(
     entry_points={
         "console_scripts": [
             "tik_tak_toe_node = tik_tak_toe.tik_tak_toe_node:main",
+            "client_test = tik_tak_toe.client_test:main",
         ],
     },
 )
