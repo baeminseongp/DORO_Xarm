@@ -1,6 +1,0 @@
-inference_node:
-  ros__parameters:
-    batch_size: 10
-    epochs: 10
-    device: "cpu"
-    
